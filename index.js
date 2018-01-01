@@ -36,6 +36,7 @@ function main(request, response, type) {
 
                 freeProcess = true;
                 mass.splice(0, 1);
+                callNewElement();
             }
         }, 1000);
     }
@@ -54,6 +55,7 @@ function main(request, response, type) {
 
                     freeProcess = true;
                     mass.splice(0, 1);
+                    callNewElement();
                 }
             }, 1000);
         });
@@ -66,6 +68,8 @@ app.get('/*', function(request, response) {
         response: response,
         type: "GET"
     });
+
+    callNewElement();
 });
 
 app.post('/*', function(request, response) {
@@ -74,15 +78,17 @@ app.post('/*', function(request, response) {
         response: response,
         type: "POST"
     });
+
+    callNewElement();
 });
 
 
 const port = process.env.PORT || 5000;
 app.listen(port);
-
 console.log("Server works on port " + port);
 
-let callingInterval = setInterval(() => {
+
+function callNewElement() {
     if(freeProcess === true) {
         if(mass.length > 0) {
             freeProcess = false;
@@ -90,4 +96,4 @@ let callingInterval = setInterval(() => {
             main(obj.request, obj.response, obj.type);
         }
     }
-}, 3);
+}
